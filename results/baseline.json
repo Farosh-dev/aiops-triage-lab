@@ -1,0 +1,507 @@
+{
+  "model": "llama3.2",
+  "n_incidents": 30,
+  "invalid_outputs": 0,
+  "needed_retry": 0,
+  "category_accuracy": 0.767,
+  "action_accuracy": 0.4,
+  "per_category_accuracy": {
+    "disk_full": 1.0,
+    "false_alert": 0.0,
+    "swap_high": 0.833,
+    "service_down": 1.0,
+    "cpu_high": 1.0
+  },
+  "confusion": {
+    "disk_full -> disk_full": 6,
+    "false_alert -> cpu_high": 3,
+    "swap_high -> swap_high": 5,
+    "false_alert -> service_down": 2,
+    "service_down -> service_down": 6,
+    "cpu_high -> cpu_high": 6,
+    "false_alert -> disk_full": 1,
+    "swap_high -> cpu_high": 1
+  },
+  "results": [
+    {
+      "id": "inc-001",
+      "truth": {
+        "category": "disk_full",
+        "severity": "high",
+        "action": "clear_tmp",
+        "rationale": "stale temp files fill the disk; safe to delete"
+      },
+      "pred": {
+        "category": "disk_full",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-002",
+      "truth": {
+        "category": "false_alert",
+        "severity": "low",
+        "action": "no_action",
+        "rationale": "scheduled batch job, expected load"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "low",
+        "action": "no_action",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-003",
+      "truth": {
+        "category": "swap_high",
+        "severity": "high",
+        "action": "restart_service",
+        "rationale": "OOM kill confirms memory pressure; restart frees swap"
+      },
+      "pred": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-004",
+      "truth": {
+        "category": "false_alert",
+        "severity": "low",
+        "action": "no_action",
+        "rationale": "transient spike, self-recovered within a minute"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "low",
+        "action": "no_action",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-005",
+      "truth": {
+        "category": "service_down",
+        "severity": "high",
+        "action": "escalate",
+        "rationale": "restarts already failed, needs a human"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "high",
+        "action": "restart_service",
+        "confidence": 0.9
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-006",
+      "truth": {
+        "category": "cpu_high",
+        "severity": "high",
+        "action": "restart_service",
+        "rationale": "runaway process, no scheduled job explains it"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "medium",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-007",
+      "truth": {
+        "category": "disk_full",
+        "severity": "medium",
+        "action": "expand_fs",
+        "rationale": "legitimate data growth, cleanup won't help"
+      },
+      "pred": {
+        "category": "disk_full",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-008",
+      "truth": {
+        "category": "disk_full",
+        "severity": "medium",
+        "action": "clear_tmp",
+        "rationale": "old core dumps in temp dir are safe to delete"
+      },
+      "pred": {
+        "category": "disk_full",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-009",
+      "truth": {
+        "category": "disk_full",
+        "severity": "high",
+        "action": "clear_tmp",
+        "rationale": "inode exhaustion with byte usage low; stale temp session files are safe to delete"
+      },
+      "pred": {
+        "category": "disk_full",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-010",
+      "truth": {
+        "category": "disk_full",
+        "severity": "high",
+        "action": "escalate",
+        "rationale": "deleting WAL by hand can corrupt the database; needs a DBA"
+      },
+      "pred": {
+        "category": "disk_full",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-011",
+      "truth": {
+        "category": "disk_full",
+        "severity": "high",
+        "action": "expand_fs",
+        "rationale": "volume undersized for steady growth, cleanup won't help"
+      },
+      "pred": {
+        "category": "disk_full",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-012",
+      "truth": {
+        "category": "false_alert",
+        "severity": "low",
+        "action": "no_action",
+        "rationale": "expected backup peak, self-clears after prune"
+      },
+      "pred": {
+        "category": "disk_full",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-013",
+      "truth": {
+        "category": "false_alert",
+        "severity": "low",
+        "action": "no_action",
+        "rationale": "planned deploy, service intentionally out of rotation"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "medium",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-014",
+      "truth": {
+        "category": "false_alert",
+        "severity": "low",
+        "action": "no_action",
+        "rationale": "cache is reclaimable, no real memory pressure"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "low",
+        "action": "no_action",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-015",
+      "truth": {
+        "category": "false_alert",
+        "severity": "low",
+        "action": "no_action",
+        "rationale": "monitoring artifact; host is actually idle"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "low",
+        "action": "no_action",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-016",
+      "truth": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "restart_service",
+        "rationale": "leaking worker; restart reclaims memory"
+      },
+      "pred": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-017",
+      "truth": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "escalate",
+        "rationale": "caused by config change; restart won't undo it, owner must revert"
+      },
+      "pred": {
+        "category": "swap_high",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-018",
+      "truth": {
+        "category": "swap_high",
+        "severity": "high",
+        "action": "escalate",
+        "rationale": "multiple services killed, host may be undersized; needs a human"
+      },
+      "pred": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-019",
+      "truth": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "restart_service",
+        "rationale": "known worker growth; restart is the proven fix"
+      },
+      "pred": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-020",
+      "truth": {
+        "category": "swap_high",
+        "severity": "medium",
+        "action": "restart_service",
+        "rationale": "swapping caused by one idempotent job; safe to restart"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "low",
+        "action": "clear_tmp",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-021",
+      "truth": {
+        "category": "cpu_high",
+        "severity": "high",
+        "action": "restart_service",
+        "rationale": "runaway JVM; restart clears it"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "medium",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-022",
+      "truth": {
+        "category": "cpu_high",
+        "severity": "medium",
+        "action": "escalate",
+        "rationale": "genuine load growth, needs a capacity decision"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "medium",
+        "action": "no_action",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-023",
+      "truth": {
+        "category": "cpu_high",
+        "severity": "high",
+        "action": "escalate",
+        "rationale": "suspected cryptominer; preserve evidence, security team must handle"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "low",
+        "action": "no_action",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-024",
+      "truth": {
+        "category": "cpu_high",
+        "severity": "medium",
+        "action": "restart_service",
+        "rationale": "stuck duplicate processes; restarting the job service clears them"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "low",
+        "action": "no_action",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-025",
+      "truth": {
+        "category": "cpu_high",
+        "severity": "medium",
+        "action": "escalate",
+        "rationale": "cause is the hypervisor; restart won't help"
+      },
+      "pred": {
+        "category": "cpu_high",
+        "severity": "low",
+        "action": "no_action",
+        "confidence": 0.2
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-026",
+      "truth": {
+        "category": "service_down",
+        "severity": "high",
+        "action": "restart_service",
+        "rationale": "single clean failure, no restart attempted yet; safe to restart"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "medium",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-027",
+      "truth": {
+        "category": "service_down",
+        "severity": "high",
+        "action": "restart_service",
+        "rationale": "isolated crash, restart is the standard first step"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "low",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-028",
+      "truth": {
+        "category": "service_down",
+        "severity": "high",
+        "action": "escalate",
+        "rationale": "dependency outage owned by another team; restarting here won't fix it"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "medium",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-029",
+      "truth": {
+        "category": "service_down",
+        "severity": "high",
+        "action": "escalate",
+        "rationale": "bad config from deploy; restart cannot fix it"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "medium",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    },
+    {
+      "id": "inc-030",
+      "truth": {
+        "category": "service_down",
+        "severity": "medium",
+        "action": "restart_service",
+        "rationale": "stale lock only; restart is safe"
+      },
+      "pred": {
+        "category": "service_down",
+        "severity": "low",
+        "action": "restart_service",
+        "confidence": 0.8
+      },
+      "tries": 1
+    }
+  ]
+}
